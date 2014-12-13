@@ -48,5 +48,5 @@ red
             states[Connection.CELL]     = 'Cell generic connection';
             states[Connection.NONE]     = 'No network connection';
 
-            alert('Tu tipo de conexión es: ' + states[networkState]);
+            //alert('Tu tipo de conexión es: ' + states[networkState]);
         }
