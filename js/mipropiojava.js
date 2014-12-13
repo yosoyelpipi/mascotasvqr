@@ -34,7 +34,7 @@ function onBackKeyDown() {
 red
 *
 */
-
+/*
         function checkConnection() {
             var networkState = navigator.connection.type;
 
@@ -50,3 +50,4 @@ red
 
             alert('Tu tipo de conexión es: ' + states[networkState]);
         }
+*/
