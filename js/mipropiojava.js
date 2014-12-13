@@ -1,11 +1,10 @@
 
-
 function onBodyLoad(){
 	document.addEventListener("deviceready", onDeviceReady, false);
 }
 
 function onDeviceReady(){
-	$("#resultado").html("Dispositivo Android detectado.");
+	$("#resultado").html("|Desarrollo por LeoCondori.com.ar");
 
 	//navigator.accelerometer.getCurrentAcceleration(onInfo, onError);
     checkConnection();
@@ -13,14 +12,12 @@ function onDeviceReady(){
 
 }
 
-
 // Handle the menu button
 //
 function onMenuKeyDown() {
-	alert('Menu button pressed.');    
+	alert('No hay opciones de menu disponible por el momento.');    
 
     }
-
 
 function onBackKeyDown() {
             if( confirm("Realmente desea salir de la aplicación? Para navegar por esta app utilice el menú.") )
@@ -29,13 +26,7 @@ function onBackKeyDown() {
             }
        } 
 
-/*
-*
-red
-*
-*/
-/*
-        function checkConnection() {
+function checkConnection() {
             var networkState = navigator.connection.type;
 
             var states = {};
@@ -48,6 +39,5 @@ red
             states[Connection.CELL]     = 'Cell generic connection';
             states[Connection.NONE]     = 'No network connection';
 
-            alert('Tu tipo de conexión es: ' + states[networkState]);
+            alert('Estas conectado mediante: ' + states[networkState]);
         }
-*/
