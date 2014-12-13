@@ -1,0 +1,426 @@
+<!DOCTYPE html> 
+<html>
+<head>
+	<title>MascotasVQR</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+	<link rel="stylesheet" href="css/img.css" />
+	<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+	<link href="css/bootstrap.css" rel="stylesheet" type="text/css">
+
+	<script src="js/jquery-1.11.1.min.js"></script>
+	<script src="js/jquery.mobile-1.4.5.min.js"></script>
+	<script src="js/img.js"></script>
+	<script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/mipropiojava.js"></script>
+	
+<script type="text/javascript">
+(function( $, window, undefined ) {
+    $.widget( "mobile.listview", $.mobile.listview, {
+        options: {
+            childPages: true,
+            page: "<div data-role='page'></div>",
+            header: "<div data-role='header'><a href='#' data-rel='back'>Back</a><h1></h1></div>",
+            content: "<div class='ui-content'></div>"
+        },
+        _create: function(){
+            this._super();
+            if( this.options.childPages ) {
+                this._setupChildren();
+            }
+        },
+        _setupChildren: function() {
+            this._attachBindings();
+            this.element.find( "ul" )
+                .css( "display","none" )
+                .parent()
+                .addClass("ui-btn ui-btn-icon-right ui-icon-carat-r");
+        },
+        _attachBindings: function() {
+            this._on({
+                "click": "_handleSubpageClick"
+            });
+            this._on( "body", {
+                "pagechange": function(){
+                    if ( this.opening === true ) {
+                        this.open = true;
+                        this.opening = false;
+                    } else if ( this.open === true ) {
+                        this.newPage.remove();
+                        this.open = false;
+                    }
+                }
+            });
+        },
+        _handleSubpageClick: function( event ) {
+            if( $(event.target).closest( "li" ).children( "ul" ).length == 0 ) {
+                return;
+            }
+            this.opening = true;
+            this.newPage = $( this.options.page ).uniqueId();
+            this.nestedList  = $( event.target ).children( "ul" )
+                .clone().attr( "data-" + $.mobile.ns + "role", "listview" )
+                .css( "display", "block" );
+            this.pageName = (
+                $( event.target.childNodes[0] ).text().replace(/^\s+|\s+$/g, '').length > 0 )?
+                $( event.target.childNodes[0] ).text() : $( event.target.childNodes[1] ).text();
+            this.pageID = this.newPage.attr( "id" );
+            // Build new page
+            this.newPage.append(
+                $( this.options.header ).find( "h1" ).text( this.pageName ).end()
+            ).append(
+                $( this.options.content )
+            ).find( "div.ui-content" ).append( this.nestedList );
+            $( "body" ).append( this.newPage );
+            $( "body" ).pagecontainer( "change", "#" + this.pageID );
+        }
+    });
+})( jQuery, this );
+
+	</script>
+	<script language="javascript" src="js/jquery-1.3.min.js"></script>
+
+<!-- CONTACTO -->	
+	    <script language="javascript">
+      $(document).ready(function() {
+       $().ajaxStart(function() {
+        $('#loadingmail').show();
+        $('#resultadomail').hide();
+        }).ajaxStop(function() {
+        $('#loadingmail').hide();
+        $('#resultadomail').fadeIn('slow');
+        });
+      $('#form, #fat, #formcontactoapp').submit(function() {
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            success: function(data) {
+                $('#resultadomail').html(data);
+            }
+        })  
+        return false;
+         }); 
+        })  
+    </script>
+	
+<!-- HISTORIA CLINICA -->
+	    <script language="javascript">
+      $(document).ready(function() {
+       $().ajaxStart(function() {
+        $('#loadinglibreta').show();
+        $('#resultadohistoria').hide();
+        }).ajaxStop(function() {
+        $('#loadinglibreta').hide();
+        $('#resultadohistoria').fadeIn('slow');
+        });
+      $('#form, #fat, #historiaclinica').submit(function() {
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            success: function(data) {
+                $('#resultadohistoria').html(data);
+            }
+        })  
+        return false;
+         }); 
+        })  
+    </script>
+	
+<!-- NOVEDADES -->
+    <script language="javascript">
+      $(document).ready(function() {
+       $().ajaxStart(function() {
+        $('#loading27').show();
+        $('#result').hide();
+        }).ajaxStop(function() {
+        $('#loading27').hide();
+        $('#result').fadeIn('slow');
+        });
+      $('#form, #fat, #fo3').submit(function() {
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            success: function(data) {
+                $('#result').html(data);
+            }
+        })  
+        return false;
+         }); 
+        })  
+    </script>
+	
+<style>
+
+#loadingmail{
+display: none;
+}
+#loadinglibreta{
+display:none;
+}
+#loadingNov{
+display:none;
+}
+</style>
+</head>
+
+<body onload="onBodyLoad()">
+
+<!-- HOME -->
+		<!-- Inicio primera página -->
+		<div data-role="page" id="home" data-theme="b">
+
+			<div data-role="header" align="center" data-position="fixed">
+			<img src="img/logo_negro.png">
+				<div data-role="navbar">
+		            <ul>
+		                <li><a href="#nosotros" data-icon="info">Nosotros</a></li>
+		                <li><a href="#libreta" data-icon="action">Libreta Sanitaria</a></li>
+		            </ul>
+        		</div><!-- /navbar -->
+			</div><!-- /header -->
+
+			<div role="main" class="ui-content">
+				<ul data-role="listview" data-inset="true" data-theme="a">
+				    <li><a href="#nosotros">Nosotros</a></li>
+				    <li><a href="#libreta">Libreta sanitaria</a></li>
+				    <li><a href="#novedad">Novedades</a></li>
+				    <li><a href="#contacto">Contacto</a></li>
+				</ul>
+			  
+			<div id="resultado" align="center">
+				<p>Desarrollo de LeoCondori.com.ar</p>
+	        </div>
+			
+
+				
+			</div><!-- /content -->
+
+			<div data-role="footer" data-position="fixed" align="center">
+				<div data-role="navbar">
+		            <ul>
+		                <li><a href="#novedad" data-icon="bars">Novedades</a></li>
+		                <li><a href="#contacto" data-icon="comment">Soporte</a></li>
+		            </ul>
+        		</div><!-- /navbar -->
+			</div><!-- /footer -->
+		</div><!-- /Fin primera página -->
+
+<!--NOSOTROS-->
+		<!-- Inicio de segunda página -->
+		<div data-role="page" id="nosotros" data-theme="b">
+
+			<div data-role="header" align="center" data-position="fixed">
+			<img src="img/logo_negro.png">
+				<div data-role="navbar">
+		            <ul>
+		                <li><a href="#home" data-icon="action">Inicio</a></li>
+						<li><a class="ui-btn-active" href="#nosotros" data-icon="info">Nosotros</a></li>
+		                <li><a href="#libreta" data-icon="action">Libreta Sanitaria</a></li>
+		            </ul>
+        		</div><!-- /navbar -->
+			</div><!-- /header -->
+
+			<div role="main" class="ui-content" data-theme="a" align="center">
+			<h2>Sobre la empresa</h2>
+			<p align="left">
+				A principios del 2014. Leo Condor&iacute; (Programador/Emprendedor/Periodista) y el Dr. Oscar Osella (M&eacute;dico Veterinario MN 1835) se juntaron con la idea de mejorar el sistema de registro actual de las mascotas y fundamentalmente colaborar con la ciudadan&iacute;a en su recuperaci&oacute;n.
+				Luego de horas y horas de planificaci&oacute;n y lluvia de ideas, surgi&oacute; el proyecto MascotasVQR; un sistema integral e innovador para todos aquellos que est&aacute;n relacionado con el cuidado y recupero de las mascotas. Un sistema de negocio que genera empleo; se enfoca en la seguridad y cuidado de las mascotas. A un costo muy bajo.
+			</p>
+<hr>
+			<h2>Sobre nosotros</h2>
+			<h1>Leo Condor&iacute;</h1>
+			<img src="img/leo_condori.jpg" width="100%">
+			<p align="left">
+			<b> | @leocondori</b><br>
+			Naci&oacute; en la Ciudad de Buenos Aires, en Hospital Ramos Mej&iacute;a del barrio de Balvanera, un 03 de diciembre de 1980.<br>
+			Inicio su carrera dentro del mundo de la inform&aacute;tica desde muy j&oacute;ven. <br>
+			A los 16 a&#241;os (1994-1996) (gracias al aporte de su abuela) se recibe de Analista de Sistemas, dictada por una red de capacitaci&oacute;n nueva para aquellos a&#241;os; el Instituto Argentino de Computaci&oacute;n, hoy m&aacute;s conocido como el IAC.<br>
+			Como el crecimiento de la tecnolog&iacute;a empuj&oacute; a todo el mundo a Internet, Leo empez&oacute; a sus 17 a&#241;os (1997) a estudiar HTML y a escribir p&aacute;ginas web.<br>
+			En el a&#241;o 2002 se recibi&oacute; de dise&#241;ador de p&aacute;ginas web.<br>
+			En el a&#241;o 2006 se recibe de Periodista en el Instituto Superior Cr&oacute;nica.<br>
+			En el a&#241;o 2007 aprende a programar en lenguaje PHP y obtiene certificado en la Escuela ITmaster.<br>
+			En el 2009 comienza a poner un pi&eacute; en el mundo mobile, tablet. Tambi&eacute;n tiene toma cursos de actualizaci&oacute;n en la Escuela ITmaster.<br>
+			En el a&#241;o 2009 forma su empresa unipersonal dedica a la consultor&iacute;a y desarrolos web y mobile. Y la bautiza como 'Laboratorio de bytes'; dentro de ese laboratorio existieron/existen muchos proyetos tecnol&oacute;gicos innovadores; como por ejemplo: Yappino (un sistema de encuentas para resturantes y cadenas hoteleras); Lesdejolacarta (un sistema para la recepci&oacute;n de pedidos con el objetivo de pedir comida desde la mesa del propio restaurante) entre otros.<br> 
+			En el 2010 se actualiza con las siguiente tecnolog&iacute;as Phonegap; PhoneBuild; JqueryMobile; Ajax; Jquery;<br>
+			En la actualidad lidera el proyecto m&aacute;s ambicioso de su carrera...MascotasVQR que tiene por objetivo identificar a todas las mascotas de latinoam&eacute;rica.
+			</p>
+<hr>
+
+			<h1>Oscar Osella</h1>
+			<img src="img/oscar_osella.jpg" width="100%">
+
+			<p align="left">
+			Egresado Facultad Ciencias Veterinarias de La Plata en el a&ntilde;o 1974.<br>
+		    Tambi&eacute;n se desempe&ntilde;&oacute; como jefe de trabajos pr&aacute;cticos de patolog&iacute;a m&eacute;dica.<br>
+            Es especialista en peque&ntilde;os animales.<br>
+            Tambi&eacuten; se desarrolla como cirujano general y traumat&oacute;logo.<br>
+            Especialista en radiolog&iacute;a<br>
+			Desde el a&ntilde;o 2006 especialista en ozonoterapia aplicada a los  animales 
+			especialista en enfermedades regenerativas
+			Matr&iacute;cula n&uacute;mero: 7194
+			</p>
+
+			</div><!-- /content -->
+
+
+			<div data-role="footer" data-position="fixed" align="center">
+				<div data-role="navbar">
+		            <ul>
+		                <li><a href="#novedad" data-icon="bars">Novedades</a></li>
+		                <li><a href="#contacto" data-icon="comment">Soporte</a></li>
+		            </ul>
+        		</div><!-- /navbar -->
+			</div><!-- /footer -->
+		</div><!-- /Fin segunda página -->
+
+
+<!-- LIBRETA -->
+		<!-- Start 3 -->
+		<div data-role="page" id="libreta" data-theme="b">
+
+			<div data-role="header" align="center" data-position="fixed">
+			<img src="img/logo_negro.png">
+				<div data-role="navbar">
+		            <ul>
+		                <li><a href="#home" data-icon="action">Inicio</a></li>
+						<li><a href="#nosotros" data-icon="info">Nosotros</a></li>
+		                <li><a class="ui-btn-active" href="#libreta" data-icon="action">Libreta Sanitaria</a></li>
+		            </ul>
+        		</div><!-- /navbar -->
+			</div><!-- /header -->
+
+			<div role="main" class="ui-content">
+				<form role="form" method="POST" rel="external" data-ajax="false" action="http://www.mascotasvqr.com/historiaclinica.php" id="historiaclinica" name="historiaclinica">
+						
+						<label for="tomail">Id del ChipQr</label>
+						<input name="tomail" id="tomail" type="text" placeholder="10001" pattern=".{5,}" required title="mínimo 5 números, verifique el chipqr de la mascota" maxlength="5" required>
+
+						<label for="historia">Comentarios:</label>
+						<textarea name="historia" id="historia" rows="8" cols="40" placeholder="Detalle de libreta sanitaria" required></textarea>
+
+						<label for="codseguridad">Clave de seguridad</label>
+						<input type="password" name="codseguridad" id="codseguridad" title="mínimo 4 números, solicítelo al dueño de la mascota" maxlength="4" placeholder="1234" required>
+<br><hr>
+						
+						<button class="ui-shadow ui-btn ui-corner-all" id="submit-2" type="submit">enviar!</button>
+
+						<div id="loadinglibreta" align="center">
+							<img src="img/ajax-loader.gif">
+						</div>	    
+						<div id="resultadohistoria">
+						</div>
+				</form>				
+			</div><!-- /content -->
+
+			<div data-role="footer" data-position="fixed" align="center">
+				<div data-role="navbar">
+		            <ul>
+		                <li><a href="#novedad" data-icon="bars">Novedades</a></li>
+		                <li><a href="#contacto" data-icon="comment">Soporte</a></li>
+		            </ul>
+        		</div><!-- /navbar -->
+			</div><!-- /footer -->
+		</div><!-- /LIBRETA 3 -->
+
+		
+<!-- NOVEDAD -->
+		<!-- Start 3 -->
+		<div data-role="page" id="novedad" data-theme="b">
+
+			<div data-role="header" align="center" data-position="fixed">
+			<img src="img/logo_negro.png">
+				<div data-role="navbar">
+		            <ul>
+		                <li><a href="#home" data-icon="action">Inicio</a></li>
+						<li><a href="#nosotros" data-icon="info">Nosotros</a></li>
+		                <li><a href="#libreta" data-icon="action">Libreta Sanitaria</a></li>
+		            </ul>
+					
+			    <form role="form" method="POST" rel="external" data-ajax="false" action="http://mascotasvqr.com/novedadesapp.php" id="fo3" name="fo3">
+							<div class="ui-input-btn ui-btn ui-corner-all">
+								<label>Buscar actualizaciones</label>
+								<input type="submit" value="Enhanced" data-enhanced="true">
+							</div>
+				</form>
+				
+        		</div><!-- /navbar -->
+			</div><!-- /header -->
+
+			<div role="main" class="ui-content" >
+				
+					<div id="loadingNov" align="center">
+						<img src="img/ajax-loader.gif">
+					</div>	    
+					<div id="result">
+					</div>
+							
+
+			</div><!-- /content -->
+
+			<div data-role="footer" data-position="fixed" align="center">
+				<div data-role="navbar">
+		            <ul>
+		                <li><a class="ui-btn-active" href="#novedad" data-icon="bars">Novedades</a></li>
+		                <li><a href="#contacto" data-icon="comment">Soporte</a></li>
+		            </ul>
+        		</div><!-- /navbar -->
+			</div><!-- /footer -->
+		</div><!-- /NOVEDAD 3 -->		
+		
+		
+<!-- CONTACTO -->		
+		<!-- Start 5 -->
+		<div data-role="page" id="contacto" data-theme="b">
+
+			<div data-role="header" align="center" data-position="fixed">
+			<img src="img/logo_negro.png">
+				<div data-role="navbar">
+		            <ul>
+		                <li><a href="#home" data-icon="action">Inicio</a></li>
+						<li><a href="#nosotros" data-icon="info">Nosotros</a></li>
+		                <li><a href="#libreta" data-icon="action">Libreta Sanitaria</a></li>
+		            </ul>
+        		</div><!-- /navbar -->
+			</div><!-- /header -->
+
+			<div role="main" class="ui-content">
+			<h1>Soporte</h1>
+<hr>
+			<form role="form" method="POST" rel="external" data-ajax="false" action="http://www.mascotasvqr.com/contacto.php" id="formcontactoapp" name="formcontactoapp">
+					
+					<label for="name">Ingrese su nombre</label>
+					<input name="name" id="name" type="text" placeholder="Ingresa tu nombre" required>
+					
+					<label for="email">Ingrese su email</label>
+					<input name="email" id="email" type="text" placeholder="contacto@mascotasvqr.com" required>
+
+					<label for="mensaje">Comentarios:</label>
+					<textarea name="mensaje" id="mensaje" rows="8" cols="40" placeholder="ingrese sus comentarios" required></textarea>
+					
+					<button class="ui-shadow ui-btn ui-corner-all" id="submit-2" type="submit">enviar!</button>
+
+					<div id="loadingmail" align="center">
+						<img src="img/ajax-loader.gif">
+					</div>	    
+					<div id="resultadomail">
+					</div>
+			</form>
+
+			</div><!-- /content -->
+
+			<div data-role="footer" data-position="fixed" align="center">
+				<div data-role="navbar">
+		            <ul>
+		                <li><a href="#novedad" data-icon="bars">Novedades</a></li>
+		                <li><a class="ui-btn-active" href="#contacto" data-icon="comment">Soporte</a></li>
+		            </ul>
+        		</div><!-- /navbar -->
+			</div><!-- /footer -->
+		</div><!-- /CONTACTO 5 -->
+			
+		
+</body>
+</html>
