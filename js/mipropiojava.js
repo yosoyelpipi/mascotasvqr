@@ -7,16 +7,21 @@ function onDeviceReady(){
 	$("#resultado").html("|Desarrollo por LeoCondori.com.ar");
 
 	//navigator.accelerometer.getCurrentAcceleration(onInfo, onError);
-    checkConnection();
-    document.addEventListener("backbutton", onBackKeyDown, false);
+    
+	//inicializa la verificación de la conexión
+	checkConnection();
+    
+	//Habilita la función del botón atrás.
+	document.addEventListener("backbutton", onBackKeyDown, false);
+	
+	//Habilita la función del botón menú.
+	document.addEventListener("menubutton", onMenuKeyDown, false);
 
 }
 
-// Handle the menu button
-//
+// Función activada. Botón Menú.
 function onMenuKeyDown() {
-	alert('No hay opciones de menu disponible por el momento.');    
-
+	alert('No hay opciones de menu disponible por el momento.');
     }
 
 function onBackKeyDown() {

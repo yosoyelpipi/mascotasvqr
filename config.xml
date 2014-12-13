@@ -14,10 +14,9 @@ Con esta aplicación vas a poder actualizar la libreta sanitaria de tu mascota e
 <preference name="phonegap-version" value="3.6.3" />
 
 <gap:plugin name="org.apache.cordova.device" version="0.2.12" />
-<gap:plugin name="org.apache.cordova.device-motion" version="0.2.10" />
 <gap:plugin name="org.apache.cordova.network-information" version="0.2.12" />
 <gap:plugin name="org.apache.cordova.dialogs" version="0.2.10" />
-<access origin="*" />
+
 
 <preference name="orientation" value="portrait" />
 <preference name="fullscreen" value="true" />
